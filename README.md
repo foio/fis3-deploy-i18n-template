@@ -66,7 +66,7 @@ fis.match('**', {
 
 ### tpl
 
--tpl/index.tpl
+- tpl/index.tpl
 
 ```
 <html>
