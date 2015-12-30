@@ -3,7 +3,6 @@ A i18n deploy plugin for [fis3](http://fis.baidu.com/) using [ejs](https://www.n
 
 ## Usage
 
-
 ### i18n
 
 ```
