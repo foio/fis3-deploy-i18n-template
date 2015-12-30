@@ -1,0 +1,30 @@
+{
+  "name": "fis3-deploy-i18n-template",
+  "version": "0.1.0",
+  "description": "A fis3 plugin to generate html from i18n language file and template file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foio/fis3-deploy-i18n-template"
+  },
+  "keywords": [
+    "fis3",
+    "i18n",
+    "language",
+    "template"
+  ],
+  "author": "syszhpe@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foio/fis3-deploy-i18n-template/issues"
+  },
+  "homepage": "https://github.com/foio/fis3-deploy-i18n-template",
+  "dependencies": {
+    "ejs": "^2.3.4",
+    "extend": "^3.0.0",
+    "fs": "0.0.2"
+  }
+}
