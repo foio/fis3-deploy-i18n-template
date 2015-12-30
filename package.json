@@ -4,7 +4,7 @@
   "description": "A fis3 plugin to generate html from i18n language file and template file.",
   "main": "index.js",
   "scripts": {
-    "test": "npm install fis3-deploy-i18n-template" && exit 1"
+    "test": "npm install fis3-deploy-i18n-template && exit 1"
   },
   "repository": {
     "type": "git",
