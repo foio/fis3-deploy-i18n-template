@@ -1,6 +1,6 @@
 {
   "name": "fis3-deploy-i18n-template",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A fis3 plugin to generate html from i18n language file and template file.",
   "main": "index.js",
   "scripts": {
