@@ -18,9 +18,13 @@ module.exports = function(srcOptions, modified, total, next) {
     fs.readdirSync(fis.project.getProjectPath()+'/'+options.i18n).map(function(f){
         var langPrefix = /^(.*[^\s])\.json$/.exec(f);
         langPrefix = langPrefix[1];
-        langList[langPrefix] = JSON.parse(fs.readFileSync(fis.project.getProjectPath()+'/'+options.i18n+'/'+f));
+        try{
+            langList[langPrefix] = JSON.parse(fs.readFileSync(fis.project.getProjectPath()+'/'+options.i18n+'/'+f));
+        }catch(e){
+            console.error('\nparse json failed:'+ fis.project.getProjectPath()+'/'+options.i18n+'/'+f);
+            throw e;
+        }
     });
-
 
     //generate html file from i18n file and template file
     var distHtmlFiles = [];
