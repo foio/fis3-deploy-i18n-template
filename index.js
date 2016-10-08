@@ -1,6 +1,10 @@
-/*
+/**
  * A i18n deploy plugin for i18n
- * by syszhpe@gmail.com
+ * Copyright (c) 2016
+ * All rights reserved
+ * 
+ * Author: syszhpe@gmail.com
+ * Modifier: tonyc726@gmail.com
  */
 
 'use strict';
@@ -10,17 +14,21 @@ var ejs = require('ejs');
 var extend = require('extend');
 
 module.exports = function(srcOptions, modified, total, next) {
-    var options = {'open':'<%','close':'%>','i18n':'lang','dist':'html/$lang/$file'};
+    var options = {'open':'<%','close':'%>','i18n':'lang','dist':'html/$lang/$file','default':''};
     extend(options,srcOptions);
 
     //read i18n language json file
-    var langList = [];
+    var langList = [],
+        langDefault = null;
     fs.readdirSync(fis.project.getProjectPath()+'/'+options.i18n).map(function(f){
         var langPrefix = /^(.*[^\s])\.json$/.exec(f);
         if(langPrefix && langPrefix[1]){
             langPrefix = langPrefix[1];
             try{
                 langList[langPrefix] = JSON.parse(fs.readFileSync(fis.project.getProjectPath()+'/'+options.i18n+'/'+f));
+              if ((options.default+'') === langPrefix) {
+                langDefault = langPrefix;
+              }
             }catch(e){
                 console.error('\nparse json failed:'+ fis.project.getProjectPath()+'/'+options.i18n+'/'+f);
                 throw e;
@@ -35,11 +43,11 @@ module.exports = function(srcOptions, modified, total, next) {
             var template = ejs.compile(file.getContent(),{'open':options.open,'close':options.close});
             for(var lang in langList){
                 var path = /([^\/]+)(?=\.html)/.exec(file.subpath);
-                var distfile = options.dist.replace('$lang',lang);
+                var distfile = options.dist.replace('$lang',((langDefault!==null && ~lang.indexOf(langDefault))?'':lang));
                 distfile = distfile.replace('$file',path[0]);
                 var htmlFile = fis.file(fis.project.getProjectPath(),'/'+distfile+'.html');
                 htmlFile.setContent(template(langList[lang]));
-                distHtmlFiles.push(htmlFile); 
+                distHtmlFiles.push(htmlFile);
             }
         }
     });
