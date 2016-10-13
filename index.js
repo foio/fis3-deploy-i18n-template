@@ -40,14 +40,17 @@ module.exports = function(srcOptions, modified, total, next) {
     var distHtmlFiles = [];
     modified.forEach(function(file) {
         if(file.isHtmlLike){
-            var template = ejs.compile(file.getContent(),{'open':options.open,'close':options.close});
-            for(var lang in langList){
+            if (!/^_/.test(file.filename)) {
+              var template = ejs.compile(file.getContent(),{'open':options.open,'close':options.close});
+
+              for(var lang in langList){
                 var path = /([^\/]+)(?=\.html)/.exec(file.subpath);
                 var distfile = options.dist.replace('$lang',((langDefault!==null && ~lang.indexOf(langDefault))?'':lang));
                 distfile = distfile.replace('$file',path[0]);
                 var htmlFile = fis.file(fis.project.getProjectPath(),'/'+distfile+'.html');
                 htmlFile.setContent(template(langList[lang]));
                 distHtmlFiles.push(htmlFile);
+              }
             }
         }
     });
