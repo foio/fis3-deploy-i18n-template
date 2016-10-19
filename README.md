@@ -40,7 +40,7 @@ fis.match('**', {
         i18n: 'i18n-folder-name',
         default: 'zh', // 新增默认语言配置项
         dist: 'html/$lang/$file',  //destination: $lang(en,zh....),$file
-        keepParentDirectoryList: ['keep-parent-floder']
+        keepParentDirectoryList: ['keep-parent-floder'] // 新增保留父级目录结构的关键字清单
     }),
     fis.plugin('local-deliver'),
     ]
@@ -103,7 +103,7 @@ fis.match('**', {
 </html>
 ```
 
-- default: zh // 默认语言输出文件去除 $lang 层级的目录
+- `default: zh`    // 默认语言输出文件去除 `$lang` 层级的目录
 - dist/html/index.html
 
 ```
@@ -119,7 +119,7 @@ fis.match('**', {
 </html>
 ```
 
-- keepParentDirectoryList: ['keep-parent-floder'] // 默认语言输出文件去除 $lang 层级的目录
+- `keepParentDirectoryList: ['keep-parent-floder']`    // 保留 `keep-parent-floder` 这个目录结构
 - dist/html/keep-parent-floder/detail.html
 - dist/html/en/keep-parent-floder/detail.html
 
