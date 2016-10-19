@@ -7,17 +7,21 @@ A i18n deploy plugin for [fis3](http://fis.baidu.com/) using [ejs](https://www.n
 
 ```
 src
-├── fis-conf.js
 ├── i18n-folder-name
 │   ├── en.json
 │   ├── zh.json
 │   └── ...
+│ 
 ├── template-folder
 │   ├── index.tpl
-│   ├── detail.tpl
-│   └── ...
-├── package.json
-└── views
+│   ├── ...
+│   └── keep-parent-floder
+│       ├── detail.tpl
+│       └── ...
+│ 
+├── fis-conf.js
+│ 
+└── package.json
 ```
 
 ### fis-conf.js
@@ -36,6 +40,7 @@ fis.match('**', {
         i18n: 'i18n-folder-name',
         default: 'zh', // 新增默认语言配置项
         dist: 'html/$lang/$file',  //destination: $lang(en,zh....),$file
+        keepParentDirectoryList: ['keep-parent-floder']
     }),
     fis.plugin('local-deliver'),
     ]
@@ -44,9 +49,9 @@ fis.match('**', {
 
 ## Example
 
-### i18n
+### i18n-folder-name
 
-- lang/en.json
+- i18n-folder-name/en.json
 
 ```
 {
@@ -55,7 +60,7 @@ fis.match('**', {
 }
 ```
 
-- lang/zh.json
+- i18n-folder-name/zh.json
 
 ```
 {
@@ -64,9 +69,10 @@ fis.match('**', {
 }
 ```
 
-### tpl
+### template-folder
 
-- tpl/index.tpl
+- template-folder/index.tpl
+- template-folder/keep-parent-floder/detail.tpl
 
 ```
 <html>
@@ -96,6 +102,7 @@ fis.match('**', {
 </body>
 </html>
 ```
+
 - default: zh // 默认语言输出文件去除 $lang 层级的目录
 - dist/html/index.html
 
@@ -104,6 +111,23 @@ fis.match('**', {
 <head>
     <meta charset="UTF-8">
     <title>index.html</title>
+</head>
+<body>
+    <p>你好</p>
+    <p>世界</p>
+</body>
+</html>
+```
+
+- keepParentDirectoryList: ['keep-parent-floder'] // 默认语言输出文件去除 $lang 层级的目录
+- dist/html/keep-parent-floder/detail.html
+- dist/html/en/keep-parent-floder/detail.html
+
+```
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>detail.html</title>
 </head>
 <body>
     <p>你好</p>
