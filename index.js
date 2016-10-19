@@ -2,7 +2,7 @@
  * A i18n deploy plugin for i18n
  * Copyright (c) 2016
  * All rights reserved
- * 
+ *
  * Author: syszhpe@gmail.com
  * Modifier: tonyc726@gmail.com
  */
@@ -14,7 +14,14 @@ var ejs = require('ejs');
 var extend = require('extend');
 
 module.exports = function(srcOptions, modified, total, next) {
-    var options = {'open':'<%','close':'%>','i18n':'lang','dist':'html/$lang/$file','default':''};
+    var options = {
+          'open': '<%',
+          'close': '%>',
+          'i18n': 'lang',
+          'dist': 'html/$lang/$file',
+          'default': '',
+          'keepOriginDirectoryList': []
+        };
     extend(options,srcOptions);
 
     //read i18n language json file
@@ -46,7 +53,26 @@ module.exports = function(srcOptions, modified, total, next) {
               for(var lang in langList){
                 var path = /([^\/]+)(?=\.html)/.exec(file.subpath);
                 var distfile = options.dist.replace('$lang',((langDefault!==null && ~lang.indexOf(langDefault))?'':lang));
-                distfile = distfile.replace('$file',path[0]);
+                var fileReplace = path[0];
+                if (options.keepOriginDirectoryList && options.keepOriginDirectoryList.length !== 0) {
+                  var needKeep = false,
+                    needKeepDirectoryName = '',
+                    fileSubpathSplit = file.subpath.split('/');
+                  options.keepOriginDirectoryList.forEach(function (dirKeyword) {
+                    if (~fileSubpathSplit.indexOf(dirKeyword)) {
+                      needKeep = true;
+                      needKeepDirectoryName = dirKeyword;
+                      return;
+                    }
+                  })
+
+                  if (needKeep === true) {
+                    fileReplace = needKeepDirectoryName + '/' + path[0];
+                  }
+                }
+
+                distfile = distfile.replace('$file', fileReplace);
+
                 var htmlFile = fis.file(fis.project.getProjectPath(),'/'+distfile+'.html');
                 htmlFile.setContent(template(langList[lang]));
                 distHtmlFiles.push(htmlFile);
