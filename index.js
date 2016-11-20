@@ -58,11 +58,21 @@ module.exports = function(srcOptions, modified, total, next) {
             var needKeep = false,
               needKeepDirectoryName = '',
               fileSubpathSplit = file.subpath.split('/');
+
             options.keepParentDirectoryList.forEach(function (dirKeyword) {
-              if (~fileSubpathSplit.indexOf(dirKeyword)) {
-                needKeep = true;
-                needKeepDirectoryName = dirKeyword;
-                return;
+              // 多层目录的判断
+              if (~dirKeyword.indexOf('/')){
+                if (~file.subpath.indexOf(dirKeyword.replace(/\/$/, '')+'/')){
+                  needKeep = true;
+                  needKeepDirectoryName = dirKeyword;
+                  return;
+                }
+              } else {
+                if (~fileSubpathSplit.indexOf(dirKeyword)) {
+                  needKeep = true;
+                  needKeepDirectoryName = dirKeyword;
+                  return;
+                }
               }
             })
 
