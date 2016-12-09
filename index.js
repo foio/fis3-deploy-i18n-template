@@ -40,7 +40,7 @@ module.exports = function(srcOptions, modified, total, next) {
 
   //read i18n language json file
   var langList = {},
-    langDefault = null;
+    langDefault = options['default'] || null;
 
   var i18nResourcePath = path.join(fis.project.getProjectPath(), options.i18n)
 
